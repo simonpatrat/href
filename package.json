@@ -1,0 +1,29 @@
+{
+  "name": "href",
+  "version": "1.0.0",
+  "description": "mini router application with typescript",
+  "main": "index.js",
+  "repository": "https://github.com/simonpatrat/href",
+  "author": "Simon Patrat",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel public/index.html",
+    "build": "parcel build public/index.html",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-jest": "^26.3.0",
+    "chai": "^4.2.0",
+    "jest": "^26.4.2",
+    "mocha": "^8.1.1",
+    "parcel-bundler": "^1.12.4",
+    "ts-jest": "^26.2.0"
+  },
+  "dependencies": {
+    "@types/jest": "^26.0.10",
+    "typescript": "^3.9.7"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
+}
