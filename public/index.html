@@ -5,18 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Simple Spa</title>
+
+    <style>
+
+        html, body {
+            margin: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        a {
+            color: red;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 16px 0;
+        }
+
+        .nav a {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        #root {
+            min-height: calc(100vh - 128px);
+            padding: 32px 0;
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/posts">Posts</a>
-        <a href="/qmlskqkslqksl">Not existing route</a>
-    </nav>
+    <div class="container">
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/posts">Posts</a>
+            <a href="/qmlskqkslqksl">Not existing route</a>
+        </nav>
+        <div id="root">
 
-    <div id="root">
-
+        </div>
     </div>
+
+
 
         <nav style="display: none;">
             <a href="pages/home.html">Home</a>
