@@ -1,3 +1,5 @@
+import { clearSlashes } from "./lib/clearSlashes";
+
 export type Route = {
   id: string;
   path: string;
@@ -86,10 +88,6 @@ export class Router {
 
   getRoutes = () => this.routes;
 
-  clearSlashes = (path: string) => {
-    return path.toString().replace(/\/$|^\//, "");
-  };
-
   navigate: (path: string) => Promise<Router> = async (path) => {
     if (this.beforeNavigate) {
       await this.beforeNavigate(this);
@@ -122,7 +120,7 @@ export class Router {
     });
     if (route && route.callback) {
       await route.callback(path, route, this);
-      window.history.pushState(null, "", "/" + this.clearSlashes(path));
+      window.history.pushState(null, "", "/" + clearSlashes(path));
     }
 
     if (this.afterNavigate) {
