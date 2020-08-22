@@ -12,7 +12,7 @@ export type RouterParams = {
   route: Route;
 };
 
-export interface IRouterProps {
+export interface RouterProps {
   routes: Route[];
   domElement?: HTMLElement;
   beforeNavigate?: (router: Router) => any | undefined;
@@ -20,7 +20,7 @@ export interface IRouterProps {
   options?: { [key: string]: any };
 }
 
-export interface IRouterState {
+export interface RouterState {
   loading: boolean;
   [key: string]: any;
 }
@@ -40,7 +40,7 @@ export class Router {
       id: "404",
     },
   ];
-  state: IRouterState = {
+  state: RouterState = {
     loading: false,
   };
   defaults: { root: string } = {
@@ -60,7 +60,7 @@ export class Router {
     beforeNavigate = undefined,
     afterNavigate = undefined,
     options = {},
-  }: IRouterProps) {
+  }: RouterProps) {
     this.settings = {
       ...this.defaults,
       ...options,
@@ -131,7 +131,7 @@ export class Router {
 
   getState = () => this.state;
 
-  setState = (newState: any): Promise<IRouterState> => {
+  setState = (newState: any): Promise<RouterState> => {
     return new Promise((resolve, reject) => {
       this.state = {
         ...this.state,
