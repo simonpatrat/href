@@ -17,6 +17,5 @@ test("should have a default state", () => {
 
 test("should have a default loading state set at false", () => {
   const testRouter = new Router({ routes: [] });
-  console.log("STATE: ", testRouter.getState());
   expect(testRouter.getState().loading).toBe(false);
 });
