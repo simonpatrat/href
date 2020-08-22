@@ -1,3 +1,3 @@
-export const clearSlashes = (path: string) => {
+export const clearSlashes = (path: string): string => {
   return path.toString().replace(/\/$|^\//, "");
 };
