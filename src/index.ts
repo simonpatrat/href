@@ -1,5 +1,5 @@
 import { Router } from "./Router/index";
-import { routes } from "./routes";
+import { routes } from "./routes/index";
 import { hackLinks } from "./links";
 
 const router = new Router({

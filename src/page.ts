@@ -1,8 +1,29 @@
+import { hackLinks } from "./links";
 import { SITE_TITLE } from "./constants";
+import { Router } from "./Router/index";
+
 export const setLoading = (isLoading: boolean) => {
   const root = document.querySelector("#root");
   if (isLoading) {
     if (root?.innerHTML) root.innerHTML = "Loading...";
+  }
+
+  const loader: HTMLDivElement | null = document.querySelector(".loading");
+  const loadingBar: HTMLDivElement | null = document.querySelector(
+    ".loading__bar"
+  );
+  if (loader && loadingBar) {
+    if (isLoading) {
+      loader.style.height = "5px";
+      loadingBar.style.transform = `scaleX(1)`;
+      loadingBar.style.transform = `all 5000ms linear`;
+    } else {
+      setTimeout(() => {
+        loader.style.height = "";
+        loadingBar.style.transform = ``;
+        // loadingBar.style.transform = `none`;
+      }, 200);
+    }
   }
 };
 
@@ -54,40 +75,66 @@ export const setMetas = (metas: Meta[] | []) => {
 
 type RenderPageParams = {
   pageName: string;
+  router: Router;
   scope?: string;
-  beforeRender?: (pageHtmlText: string) => Promise<any>;
+  getData?: () => Promise<any>;
   afterRender?: (pageHtmlText: string) => Promise<any>;
 };
 
 export const renderPage = async ({
   pageName,
+  router,
   scope,
-  beforeRender,
   afterRender,
+  getData,
 }: RenderPageParams): Promise<string> => {
   setLoading(true);
+  let title = pageName;
   const page = await fetch(`/pages/${pageName}.html`);
   let pageContent = await page.text();
-  if (beforeRender) {
-    pageContent = await beforeRender(pageContent);
+
+  if (getData) {
+    let response = await getData();
+
+    if (response && response.error) {
+      response = await router.navigate("404");
+      const html = await response.text();
+      pageContent = html;
+    }
+
+    if (response.data && typeof response.data === "object") {
+      const { title: pageTitle } = response.data;
+
+      if (pageTitle) {
+        title = pageTitle;
+      }
+      Object.keys(response.data).forEach((key, index) => {
+        const value = response.data[key];
+        const regex = new RegExp(`{{${key}}}`, "g");
+        pageContent = pageContent.replace(regex, value);
+      });
+    }
   }
   const root = scope
     ? document.querySelector(`#${scope}`)
     : document.querySelector("#root");
+
   setLoading(false);
+
   if (root?.innerHTML) {
     root.innerHTML = pageContent;
-    await setTitle(pageName);
+    await setTitle(title);
     await setMetas([
       {
         property: "og:title",
-        content: pageName,
+        content: `${title} | ${SITE_TITLE}`,
       },
     ]);
 
     if (afterRender) {
       pageContent = await afterRender(pageContent);
     }
+    hackLinks(router);
     return root.innerHTML;
   }
   return "";

@@ -120,7 +120,11 @@ export class Router {
     });
     if (route && route.callback) {
       await route.callback(path, route, this);
-      window.history.pushState(null, "", "/" + clearSlashes(path));
+      window.history.pushState(
+        { pageId: route.id },
+        route.id,
+        "/" + clearSlashes(path)
+      );
     }
 
     if (this.afterNavigate) {
